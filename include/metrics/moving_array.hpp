@@ -8,7 +8,7 @@
 
 namespace metrics {
 
-template <typename ELEMENT, int ARRAY_SIZE> struct FixedSizeMovingArray {
+template <typename ELEMENT, int ARRAY_SIZE> struct MovingArray {
   static_assert(ARRAY_SIZE > 0, "ARRAY_SIZE must be positive");
   static constexpr auto SIZE = ARRAY_SIZE;
   [[nodiscard]] constexpr ELEMENT const &at(int external_index) const noexcept {
@@ -16,7 +16,7 @@ template <typename ELEMENT, int ARRAY_SIZE> struct FixedSizeMovingArray {
   }
 
   [[nodiscard]] constexpr ELEMENT &at(int external_index) noexcept {
-    return const_cast<ELEMENT &>(static_cast<FixedSizeMovingArray const &>(*this).at(external_index));
+    return const_cast<ELEMENT &>(static_cast<MovingArray const &>(*this).at(external_index));
   }
 
   [[nodiscard]] constexpr std::optional<std::reference_wrapper<ELEMENT const>>

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <string>
 
-#include "metrics/fixed_size_moving_array.hpp"
+#include "metrics/moving_array.hpp"
 
 namespace metrics {
 struct Metric {
@@ -9,7 +9,7 @@ struct Metric {
 };
 
 constexpr auto SIZE = 4;
-using TestArray     = FixedSizeMovingArray<Metric, SIZE>;
+using TestArray     = MovingArray<Metric, SIZE>;
 
 namespace {
 [[nodiscard]] std::string toString(TestArray const &array) noexcept {
@@ -41,67 +41,67 @@ namespace {
 } // namespace
 
 // abcdefgh|ijkl|mnopqrst
-TEST(FixedSizeMovingArray, DefaultValues) {
+TEST(MovingArray, DefaultValues) {
   TestArray const array;
   ASSERT_EQ(toString(array), "xxxx");
 }
 
-TEST(FixedSizeMovingArray, ChangeValues) {
+TEST(MovingArray, ChangeValues) {
   auto array = filledArray();
   ASSERT_EQ(toString(array), "abcd");
 }
 
-TEST(FixedSizeMovingArray, MoveRight) {
+TEST(MovingArray, MoveRight) {
   auto array = filledArray();
   array.move(1);
   ASSERT_EQ(toString(array), "bcdx");
 }
 
-TEST(FixedSizeMovingArray, MoveRightTwoTimes) {
+TEST(MovingArray, MoveRightTwoTimes) {
   auto array = filledArray();
   array.move(1);
   array.move(1);
   ASSERT_EQ(toString(array), "cdxx");
 }
 
-TEST(FixedSizeMovingArray, MoveRightByTwo) {
+TEST(MovingArray, MoveRightByTwo) {
   auto array = filledArray();
   array.move(2);
   ASSERT_EQ(toString(array), "cdxx");
 }
 
-TEST(FixedSizeMovingArray, MoveRightALot) {
+TEST(MovingArray, MoveRightALot) {
   auto array = filledArray();
   array.move(6);
   ASSERT_EQ(toString(array), "xxxx");
 }
 
-TEST(FixedSizeMovingArray, MoveLeft) {
+TEST(MovingArray, MoveLeft) {
   auto array = filledArray();
   array.move(-1);
   ASSERT_EQ(toString(array), "xabc");
 }
 
-TEST(FixedSizeMovingArray, MoveLeftTwoTimes) {
+TEST(MovingArray, MoveLeftTwoTimes) {
   auto array = filledArray();
   array.move(-1);
   array.move(-1);
   ASSERT_EQ(toString(array), "xxab");
 }
 
-TEST(FixedSizeMovingArray, MoveLeftByTwo) {
+TEST(MovingArray, MoveLeftByTwo) {
   auto array = filledArray();
   array.move(-2);
   ASSERT_EQ(toString(array), "xxab");
 }
 
-TEST(FixedSizeMovingArray, MoveLeftALot) {
+TEST(MovingArray, MoveLeftALot) {
   auto array = filledArray();
   array.move(-6);
   ASSERT_EQ(toString(array), "xxxx");
 }
 
-TEST(FixedSizeMovingArray, SlideRightOnAlphabet) {
+TEST(MovingArray, SlideRightOnAlphabet) {
   auto array = filledArray();
   array.move(1);
   array.at(SIZE - 1) = {'e'};
@@ -120,7 +120,7 @@ TEST(FixedSizeMovingArray, SlideRightOnAlphabet) {
   ASSERT_EQ(toString(array), "fghi");
 }
 
-TEST(FixedSizeMovingArray, SlideLeftOnAlphabet) {
+TEST(MovingArray, SlideLeftOnAlphabet) {
   auto array = otherFilledArray();
   ASSERT_EQ(toString(array), "ghij");
   array.move(-1);
