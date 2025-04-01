@@ -1,0 +1,7 @@
+﻿---
+BasedOnStyle: LLVM
+ColumnLimit: '120'
+TabWidth: '2'
+IndentPPDirectives: AfterHash
+AlignConsecutiveAssignments: true
+InsertNewlineAtEOF: true
